@@ -60,6 +60,10 @@ public class Main {
                 e.printStackTrace();
             }
 
+            //Chiedo all'utente di inserire un paese da cercare
+            System.out.println("Select an ID to know stats: ");
+            int searchIDCountry = Integer.parseInt(scanner.nextLine());
+
             //query per la ricerca e stampa delle statistiche
             String query2 =
                     "SELECT c.name AS country_name, cs.`year` AS statistics_year, cs.population AS country_population, cs.gdp AS country_gdp " +
@@ -68,7 +72,12 @@ public class Main {
                             "WHERE c.country_id like ? " +
                             "ORDER BY cs.`year` desc";
             try (PreparedStatement preparedStatement2 = connection.prepareStatement(query2)){
-
+                //Binding dei parametri
+                preparedStatement2.setInt(2, searchIDCountry);
+                //eseguo il prepare statement
+            } catch (SQLException e) {
+                System.out.println("Unable to prepare statement");
+                e.printStackTrace();
             }
         } catch (SQLException e) {
             System.out.println("Unable to open connection!");
