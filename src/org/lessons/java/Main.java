@@ -1,9 +1,12 @@
 package org.lessons.java;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        // Istanzio lo scanner
+        Scanner scanner = new Scanner(System.in);
         // Parametri di Connessione
 
         // URL Database
