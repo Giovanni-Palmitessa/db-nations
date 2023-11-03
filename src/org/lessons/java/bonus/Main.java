@@ -73,8 +73,24 @@ public class Main {
                             "ORDER BY cs.`year` desc";
             try (PreparedStatement preparedStatement2 = connection.prepareStatement(query2)){
                 //Binding dei parametri
-                preparedStatement2.setInt(2, searchIDCountry);
+                preparedStatement2.setInt(1, searchIDCountry);
                 //eseguo il prepare statement
+                try (ResultSet resultSet2 = preparedStatement2.executeQuery()) {
+                    //itero sul result set
+                    while (resultSet2.next()) {
+                        // ad ogni iterazione resultSet si sposta e punta alla riga successiva
+                        String countryName = resultSet2.getString("country_name");
+                        int countryYear = resultSet2.getInt("statistics_year");
+                        String countryPopulation = resultSet2.getString("country_population");
+                        String countryGdp = resultSet2.getString("country_gdp");
+
+                        //Stampa a video i risultati
+                        System.out.println("Country name: " + countryName + ", Year: " + countryYear + ", Country Population: " + countryPopulation + ", Country GDP: " + countryGdp);
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Unable to execute query");
+                    e.printStackTrace();
+                }
             } catch (SQLException e) {
                 System.out.println("Unable to prepare statement");
                 e.printStackTrace();
