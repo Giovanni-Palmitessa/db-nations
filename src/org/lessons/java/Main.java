@@ -26,6 +26,10 @@ public class Main {
                 //eseguo il prepare statement
                 try(ResultSet resultSet = preparedStatement.executeQuery()) {
                     //itero sul result set
+                    while (resultSet.next()) {
+                        // ad ogni iterazione resultSet si sposta e punta alla riga successiva
+                        String countryName = resultSet.getString("country_name");
+                    }
                 } catch (SQLException e) {
                     System.out.println("Unable to execute query");
                     e.printStackTrace();
