@@ -70,7 +70,7 @@ public class Main {
                             "FROM countries c " +
                             "JOIN country_stats cs ON cs.country_id = c.country_id " +
                             "WHERE c.country_id like ? " +
-                            "ORDER BY cs.`year` desc";
+                            "ORDER BY cs.`year` desc LIMIT 1";
             try (PreparedStatement preparedStatement2 = connection.prepareStatement(query2)){
                 //Binding dei parametri
                 preparedStatement2.setInt(1, searchIDCountry);
@@ -95,6 +95,43 @@ public class Main {
                 System.out.println("Unable to prepare statement");
                 e.printStackTrace();
             }
+            // --------------------------------------
+            //Chiedo all'utente di inserire un paese da cercare
+            /*System.out.println("Select an ID to know stats: ");
+            int searchIDCountry = Integer.parseInt(scanner.nextLine());*/
+
+            //query per la ricerca e stampa delle statistiche
+            String query3 =
+                    "SELECT c.name AS country_name , l.`language` AS country_language " +
+                            "FROM countries c " +
+                            "JOIN country_languages cl ON cl.country_id = c.country_id " +
+                            "JOIN languages l ON cl.language_id = l.language_id " +
+                            "WHERE c.country_id like ?";
+
+            try (PreparedStatement preparedStatement3 = connection.prepareStatement(query3)){
+                //Binding dei parametri
+                preparedStatement3.setInt(1, searchIDCountry);
+                //eseguo il prepare statement
+                try (ResultSet resultSet3 = preparedStatement3.executeQuery()) {
+                    //itero sul result set
+                    while (resultSet3.next()) {
+                        // ad ogni iterazione resultSet si sposta e punta alla riga successiva
+                        String countryName = resultSet3.getString("country_name");
+                        String countryLanguage = resultSet3.getString("country_language");
+
+                        //Stampa a video i risultati
+                        System.out.println("Country name: " + countryName + ", Country Language: " + countryLanguage);
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Unable to execute query");
+                    e.printStackTrace();
+                }
+            } catch (SQLException e) {
+                System.out.println("Unable to prepare statement");
+                e.printStackTrace();
+            }
+
+            // --------------------------------------
         } catch (SQLException e) {
             System.out.println("Unable to open connection!");
             e.printStackTrace();
