@@ -1,6 +1,8 @@
 package org.lessons.java.bonus;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -31,9 +33,6 @@ public class Main {
                             "JOIN continents c2 ON c2.continent_id = r.continent_id " +
                             "WHERE c.name like ? " +
                             "ORDER BY c.name;";
-
-
-
             //la connection prepara uno statement sql
             try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 //Binding dei parametri
@@ -59,7 +58,6 @@ public class Main {
                 System.out.println("Unable to prepare statement");
                 e.printStackTrace();
             }
-
             //Chiedo all'utente di inserire un paese da cercare
             System.out.println("Select an ID to know stats: ");
             int searchIDCountry = Integer.parseInt(scanner.nextLine());
@@ -84,7 +82,7 @@ public class Main {
                         String countryPopulation = resultSet2.getString("country_population");
                         String countryGdp = resultSet2.getString("country_gdp");
 
-                        //Stampa a video i risultati
+                        //Stampa a video i risultati delle statistiche
                         System.out.println("Country name: " + countryName + ", Year: " + countryYear + ", Country Population: " + countryPopulation + ", Country GDP: " + countryGdp);
                     }
                 } catch (SQLException e) {
@@ -97,8 +95,6 @@ public class Main {
             }
             // --------------------------------------
             //Chiedo all'utente di inserire un paese da cercare
-            /*System.out.println("Select an ID to know stats: ");
-            int searchIDCountry = Integer.parseInt(scanner.nextLine());*/
 
             //query per la ricerca e stampa delle statistiche
             String query3 =
@@ -113,15 +109,21 @@ public class Main {
                 preparedStatement3.setInt(1, searchIDCountry);
                 //eseguo il prepare statement
                 try (ResultSet resultSet3 = preparedStatement3.executeQuery()) {
+                    String countryName = "";
+                    List<String> countryLanguages = new ArrayList<>();
                     //itero sul result set
                     while (resultSet3.next()) {
                         // ad ogni iterazione resultSet si sposta e punta alla riga successiva
-                        String countryName = resultSet3.getString("country_name");
+                        countryName = resultSet3.getString("country_name");
                         String countryLanguage = resultSet3.getString("country_language");
 
-                        //Stampa a video i risultati
-                        System.out.println("Country name: " + countryName + ", Country Language: " + countryLanguage);
+                        countryLanguages.add(countryLanguage);
+
+                        /*//Stampa a video i risultati
+                        System.out.println("Country name: " + countryName + ", Country Language: " + countryLanguage);*/
                     }
+                    // Stampo lingue parlate
+                    System.out.println("Country name: " + countryName + " ,Country Languages: " + String.join(", " , countryLanguages));
                 } catch (SQLException e) {
                     System.out.println("Unable to execute query");
                     e.printStackTrace();
@@ -130,7 +132,6 @@ public class Main {
                 System.out.println("Unable to prepare statement");
                 e.printStackTrace();
             }
-
             // --------------------------------------
         } catch (SQLException e) {
             System.out.println("Unable to open connection!");
