@@ -8,5 +8,7 @@ public class Main {
         String url = "jdbc:mysql://localhost:3306/db_nations";
         // Username
         String user = "root";
+        // Password
+        String password = "root";
     }
 }
