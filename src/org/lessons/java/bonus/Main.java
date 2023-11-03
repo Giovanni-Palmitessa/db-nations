@@ -23,17 +23,17 @@ public class Main {
             System.out.println("Search a country by name: ");
             String searchCountry =scanner.nextLine();
 
-            //query pe rla ricerca
+            //Prima query per stampare nazioni
             String query =
-                    "SELECT c.name as country_name, c.country_id as country_id, r.name as region_name, c2.name as continent_name, " + "cs.`year` as statistics_year, cs.population as country_population, cs.gdp as country_gdp, l.`language` as country_language " +
+                    "SELECT c.name as country_name, c.country_id as country_id, r.name as region_name, c2.name as continent_name " +
                             "FROM countries c " +
                             "JOIN regions r ON r.region_id = c.region_id " +
                             "JOIN continents c2 ON c2.continent_id = r.continent_id " +
-                            "JOIN country_languages cl ON cl.country_id = c.country_id " +
-                            "JOIN languages l ON cl.language_id = l.language_id " +
-                            "JOIN country_stats cs ON cs.country_id = c.country_id " +
-                            "WHERE c.country_id LIKE 107 " +
-                            "ORDER BY cs.`year` desc";
+                            "WHERE c.name like ? " +
+                            "ORDER BY c.name;";
+
+
+
             //la connection prepara uno statement sql
             try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 //Binding dei parametri
@@ -58,6 +58,17 @@ public class Main {
             } catch (SQLException e) {
                 System.out.println("Unable to prepare statement");
                 e.printStackTrace();
+            }
+
+            //query per la ricerca e stampa delle statistiche
+            String query2 =
+                    "SELECT c.name AS country_name, cs.`year` AS statistics_year, cs.population AS country_population, cs.gdp AS country_gdp " +
+                            "FROM countries c " +
+                            "JOIN country_stats cs ON cs.country_id = c.country_id " +
+                            "WHERE c.country_id like ? " +
+                            "ORDER BY cs.`year` desc";
+            try (PreparedStatement preparedStatement2 = connection.prepareStatement(query2)){
+
             }
         } catch (SQLException e) {
             System.out.println("Unable to open connection!");
