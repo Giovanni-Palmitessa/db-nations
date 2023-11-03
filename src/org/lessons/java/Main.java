@@ -29,6 +29,7 @@ public class Main {
                     while (resultSet.next()) {
                         // ad ogni iterazione resultSet si sposta e punta alla riga successiva
                         String countryName = resultSet.getString("country_name");
+                        int countryID = resultSet.getInt("country_id");
                     }
                 } catch (SQLException e) {
                     System.out.println("Unable to execute query");
