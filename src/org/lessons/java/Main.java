@@ -1,9 +1,6 @@
 package org.lessons.java;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -21,7 +18,13 @@ public class Main {
             String query = "";
             //la connection prepara uno statement sql
             try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                //eseguo il prepare statement
+                try(ResultSet resultSet = preparedStatement.executeQuery()) {
 
+                } catch (SQLException e) {
+                    System.out.println("Unable to execute query");
+                    e.printStackTrace();
+                }
             } catch (SQLException e) {
                 System.out.println("Unable to prepare statement");
                 e.printStackTrace();
