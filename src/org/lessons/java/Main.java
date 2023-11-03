@@ -15,12 +15,17 @@ public class Main {
 
         //provo ad aprire una connessione con try with resources
         try(Connection connection = DriverManager.getConnection(url, user, password)) {
-            String query = "";
+            String query =
+                    "SELECT c.name as country_name, c.country_id as country_id, r.name as region_name, c2.name as continent_name " +
+                    "FROM countries c " +
+                    "JOIN regions r ON r.region_id = c.region_id " +
+                    "JOIN continents c2 ON c2.continent_id = r.continent_id " +
+                    "ORDER BY c.name;";
             //la connection prepara uno statement sql
             try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 //eseguo il prepare statement
                 try(ResultSet resultSet = preparedStatement.executeQuery()) {
-
+                    //itero sul result set
                 } catch (SQLException e) {
                     System.out.println("Unable to execute query");
                     e.printStackTrace();
