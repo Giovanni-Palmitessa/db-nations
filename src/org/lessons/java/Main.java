@@ -34,7 +34,7 @@ public class Main {
             //la connection prepara uno statement sql
             try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 //Binding dei parametri
-                preparedStatement.setInt(1, userYear);
+                preparedStatement.setString(1, "%" + searchCountry + "%");
                 //eseguo il prepare statement
                 try(ResultSet resultSet = preparedStatement.executeQuery()) {
                     //itero sul result set
