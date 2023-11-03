@@ -25,12 +25,15 @@ public class Main {
 
             //query pe rla ricerca
             String query =
-                    "SELECT c.name as country_name, c.country_id as country_id, r.name as region_name, c2.name as continent_name " +
+                    "SELECT c.name as country_name, c.country_id as country_id, r.name as region_name, c2.name as continent_name, " + "cs.`year` as statistics_year, cs.population as country_population, cs.gdp as country_gdp, l.`language` as country_language " +
                             "FROM countries c " +
                             "JOIN regions r ON r.region_id = c.region_id " +
                             "JOIN continents c2 ON c2.continent_id = r.continent_id " +
-                            "WHERE c.name like ? " +
-                            "ORDER BY c.name;";
+                            "JOIN country_languages cl ON cl.country_id = c.country_id " +
+                            "JOIN languages l ON cl.language_id = l.language_id " +
+                            "JOIN country_stats cs ON cs.country_id = c.country_id " +
+                            "WHERE c.country_id LIKE 107 " +
+                            "ORDER BY cs.`year` desc";
             //la connection prepara uno statement sql
             try(PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 //Binding dei parametri
