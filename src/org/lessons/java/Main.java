@@ -31,7 +31,7 @@ public class Main {
                         String countryName = resultSet.getString("country_name");
                         int countryID = resultSet.getInt("country_id");
                         String regionName = resultSet.getString("region_name");
-                        String regionName = resultSet.getString("region_name");
+                        String continentName = resultSet.getString("continent_name");
                     }
                 } catch (SQLException e) {
                     System.out.println("Unable to execute query");
