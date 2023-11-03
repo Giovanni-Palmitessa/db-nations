@@ -30,6 +30,8 @@ public class Main {
                         // ad ogni iterazione resultSet si sposta e punta alla riga successiva
                         String countryName = resultSet.getString("country_name");
                         int countryID = resultSet.getInt("country_id");
+                        String regionName = resultSet.getString("region_name");
+                        String regionName = resultSet.getString("region_name");
                     }
                 } catch (SQLException e) {
                     System.out.println("Unable to execute query");
